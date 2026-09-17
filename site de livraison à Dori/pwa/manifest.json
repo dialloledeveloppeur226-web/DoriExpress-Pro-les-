@@ -1,0 +1,152 @@
+{
+  "name": "DoriExpress-Pro - Livraison rapide à Dori",
+  "short_name": "DoriExpress",
+  "description": "Plateforme de livraison professionnelle à Dori, Burkina Faso",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#00A651",
+  "categories": ["delivery", "food", "shopping", "logistics"],
+  "lang": "fr",
+  "dir": "ltr",
+  "scope": "/",
+  "id": "/",
+  "icons": [
+    {
+      "src": "/assets/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/images/screenshot-home.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "android"
+    },
+    {
+      "src": "/assets/images/screenshot-commande.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "android"
+    },
+    {
+      "src": "/assets/images/screenshot-dashboard.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "android"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Commander",
+      "short_name": "Commander",
+      "description": "Créez une nouvelle commande",
+      "url": "/commande.php",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-commande.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Suivi",
+      "short_name": "Suivi",
+      "description": "Suivez votre colis",
+      "url": "/suivi.php",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-suivi.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Mes commandes",
+      "short_name": "Commandes",
+      "description": "Voir l'historique des commandes",
+      "url": "/client/commandes.php",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-commandes.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Mon profil",
+      "short_name": "Profil",
+      "description": "Gérer mon compte",
+      "url": "/profil.php",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-profil.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/commande.php",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "display_override": ["window-controls-overlay", "standalone"]
+}

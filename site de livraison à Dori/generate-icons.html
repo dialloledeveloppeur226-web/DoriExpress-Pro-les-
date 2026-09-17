@@ -1,0 +1,128 @@
+<!-- generate-icons.html - À ouvrir dans le navigateur pour générer les icônes -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Générer les icônes DoriExpress-Pro</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; }
+        h1 { color: #00A651; }
+        .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px; margin-top: 20px; }
+        .icon-item { text-align: center; border: 1px solid #ddd; padding: 10px; border-radius: 8px; background: #fafafa; }
+        .icon-item canvas { border-radius: 12px; }
+        .btn { background: #00A651; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        .btn:hover { background: #008a44; }
+        .instructions { background: #f8fafc; border: 1px solid #e5e7eb; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .instructions code { background: #e5e7eb; padding: 2px 6px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Générateur d'icônes DoriExpress-Pro</h1>
+        <p>Cliquez sur le bouton ci-dessous pour générer toutes les icônes de l'application.</p>
+        
+        <div class="instructions">
+            <strong>📋 Instructions :</strong><br>
+            1. Cliquez sur "Générer les icônes"<br>
+            2. Faites un clic droit sur chaque icône → "Enregistrer l'image sous..."<br>
+            3. Placez les fichiers dans le dossier <code>assets/icons/</code><br>
+            4. Pour les logos, utilisez la même méthode
+        </div>
+        
+        <button class="btn" onclick="generateAll()">🎨 Générer les icônes</button>
+        
+        <div class="icon-grid" id="icon-grid"></div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #dcfce7; border: 1px solid #bbf7d0; border-radius: 8px;">
+            <strong>✅ Alternative :</strong><br>
+            Pour des icônes professionnelles, utilisez :<br>
+            - <a href="https://favicon.io/" target="_blank">favicon.io</a> (générateur de favicon)<br>
+            - <a href="https://www.flaticon.com/" target="_blank">Flaticon</a> (icônes prêtes à l'emploi)<br>
+            - <a href="https://www.figma.com/" target="_blank">Figma</a> (création personnalisée)
+        </div>
+    </div>
+    
+    <script>
+        function generateAll() {
+            const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+            const grid = document.getElementById('icon-grid');
+            grid.innerHTML = '';
+            
+            sizes.forEach(size => {
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                canvas.style.borderRadius = '12px';
+                
+                const ctx = canvas.getContext('2d');
+                
+                // Fond
+                const gradient = ctx.createLinearGradient(0, 0, size, size);
+                gradient.addColorStop(0, '#00A651');
+                gradient.addColorStop(1, '#008a44');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.roundRect(0, 0, size, size, size * 0.15);
+                ctx.fill();
+                
+                // Cercle intérieur
+                ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                ctx.beginPath();
+                ctx.arc(size/2, size/2, size * 0.35, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Lettre D
+                ctx.fillStyle = 'white';
+                ctx.font = `bold ${size * 0.5}px Arial, sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('D', size/2, size/2 + size * 0.02);
+                
+                // Texte Express (pour les grandes tailles)
+                if (size >= 192) {
+                    ctx.font = `bold ${size * 0.06}px Arial, sans-serif`;
+                    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+                    ctx.fillText('Express', size/2, size * 0.85);
+                }
+                
+                const div = document.createElement('div');
+                div.className = 'icon-item';
+                div.innerHTML = `
+                    <canvas width="${size}" height="${size}" style="width:${Math.min(size, 100)}px;height:${Math.min(size, 100)}px;"></canvas>
+                    <div style="margin-top:5px;font-size:12px;color:#666;">${size}x${size}</div>
+                    <button onclick="downloadIcon(this, ${size})" style="margin-top:5px;background:#3b82f6;color:white;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;">Télécharger</button>
+                `;
+                
+                const canvasClone = div.querySelector('canvas');
+                const ctxClone = canvasClone.getContext('2d');
+                ctxClone.drawImage(canvas, 0, 0);
+                
+                div._canvas = canvas;
+                grid.appendChild(div);
+            });
+        }
+        
+        function downloadIcon(btn, size) {
+            const div = btn.closest('.icon-item');
+            const canvas = div._canvas;
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Polyfill roundRect pour les navigateurs anciens
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, radii) {
+                const r = typeof radii === 'number' ? radii : (radii || 0);
+                this.moveTo(x + r, y);
+                this.arcTo(x + w, y, x + w, y + h, r);
+                this.arcTo(x + w, y + h, x, y + h, r);
+                this.arcTo(x, y + h, x, y, r);
+                this.arcTo(x, y, x + w, y, r);
+                return this;
+            };
+        }
+    </script>
+</body>
+</html>

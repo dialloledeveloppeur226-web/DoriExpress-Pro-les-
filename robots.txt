@@ -1,0 +1,48 @@
+# =============================================
+# ROBOTS.TXT - DoriExpress-Pro
+# =============================================
+# Fichier : robots.txt
+# Rôle : Instructions pour les robots des moteurs de recherche
+# =============================================
+
+User-agent: *
+Allow: /
+Allow: /index.php
+Allow: /services.php
+Allow: /tarifs.php
+Allow: /commande.php
+Allow: /suivi.php
+Allow: /contact.php
+Allow: /faq.php
+Allow: /blog.php
+Allow: /actualites.php
+Allow: /promotions.php
+Allow: /partenaires.php
+Allow: /recrutement.php
+Allow: /boutique.php
+Allow: /restaurants.php
+
+Disallow: /admin/
+Disallow: /client/
+Disallow: /livreur/
+Disallow: /partenaire/
+Disallow: /includes/
+Disallow: /database/
+Disallow: /api/
+Disallow: /modules/
+Disallow: /storage/
+Disallow: /uploads/
+Disallow: /install.php
+Disallow: /login.php
+Disallow: /register.php
+Disallow: /logout.php
+Disallow: /profil.php
+Disallow: /notifications.php
+Disallow: /messages.php
+
+# Sitemap
+Sitemap: https://www.doriexpress.bf/sitemap.xml
+
+# =============================================
+# FIN DU FICHIER ROBOTS.TXT
+# =============================================

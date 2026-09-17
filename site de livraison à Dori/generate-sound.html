@@ -1,0 +1,165 @@
+<!-- generate-sound.html - Générer le son de notification -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Générer le son de notification</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; }
+        h1 { color: #00A651; }
+        .btn { background: #00A651; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        .btn:hover { background: #008a44; }
+        .instructions { background: #f8fafc; border: 1px solid #e5e7eb; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        audio { width: 100%; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔔 Générateur de son de notification</h1>
+        <p>Écoutez et téléchargez le son de notification pour DoriExpress-Pro.</p>
+        
+        <div class="instructions">
+            <strong>📋 Instructions :</strong><br>
+            1. Écoutez le son ci-dessous<br>
+            2. Cliquez sur "Télécharger" pour enregistrer le fichier<br>
+            3. Placez <code>notification.mp3</code> dans <code>assets/sounds/</code>
+        </div>
+        
+        <div style="text-align:center; padding:20px; background:#f3f4f6; border-radius:8px; margin:15px 0;">
+            <div id="playBtn" style="font-size:48px; cursor:pointer;" onclick="playSound()">🔊</div>
+            <audio id="audioPlayer"></audio>
+            <div style="margin-top:10px;">
+                <button class="btn" onclick="downloadSound()">⬇️ Télécharger notification.mp3</button>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #dcfce7; border: 1px solid #bbf7d0; border-radius: 8px;">
+            <strong>✅ Alternative :</strong><br>
+            - <a href="https://www.freesound.org/" target="_blank">Freesound</a> (sons gratuits)<br>
+            - <a href="https://pixabay.com/fr/sound-effects/" target="_blank">Pixabay</a> (effets sonores)<br>
+            - Utiliser un son de notification d'iPhone/Android
+        </div>
+    </div>
+    
+    <script>
+        // Créer un son de notification simple
+        function createNotificationSound() {
+            const sampleRate = 44100;
+            const duration = 0.3;
+            const numSamples = Math.floor(sampleRate * duration);
+            const audioData = new Float32Array(numSamples);
+            
+            // Fréquence (440 Hz - La)
+            const freq = 880;
+            // Enveloppe
+            for (let i = 0; i < numSamples; i++) {
+                const t = i / sampleRate;
+                const envelope = Math.exp(-t * 10);
+                audioData[i] = Math.sin(2 * Math.PI * freq * t) * envelope * 0.3;
+            }
+            
+            // Ajouter une harmonique
+            for (let i = 0; i < numSamples; i++) {
+                const t = i / sampleRate;
+                audioData[i] += Math.sin(2 * Math.PI * freq * 1.5 * t) * Math.exp(-t * 12) * 0.15;
+            }
+            
+            return audioData;
+        }
+        
+        let audioContext = null;
+        
+        function playSound() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            const audioData = createNotificationSound();
+            const buffer = audioContext.createBuffer(1, audioData.length, 44100);
+            buffer.copyToChannel(audioData, 0);
+            
+            const source = audioContext.createBufferSource();
+            source.buffer = buffer;
+            source.connect(audioContext.destination);
+            source.start();
+            
+            // Animation du bouton
+            const btn = document.getElementById('playBtn');
+            btn.textContent = '🔊';
+            setTimeout(() => btn.textContent = '🔊', 500);
+        }
+        
+        function downloadSound() {
+            const audioData = createNotificationSound();
+            const wavData = createWav(audioData, 44100);
+            
+            const blob = new Blob([wavData], { type: 'audio/wav' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.download = 'notification.wav';
+            link.href = url;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+            
+            showMessage('✅ Fichier téléchargé ! Renommez-le en notification.mp3');
+        }
+        
+        function createWav(data, sampleRate) {
+            const numChannels = 1;
+            const bitsPerSample = 16;
+            const byteRate = sampleRate * numChannels * bitsPerSample / 8;
+            const blockAlign = numChannels * bitsPerSample / 8;
+            const dataSize = data.length * 2;
+            const headerSize = 44;
+            const totalSize = headerSize + dataSize;
+            
+            const buffer = new ArrayBuffer(totalSize);
+            const view = new DataView(buffer);
+            
+            // RIFF header
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, totalSize - 8, true);
+            writeString(view, 8, 'WAVE');
+            
+            // fmt chunk
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, bitsPerSample, true);
+            
+            // data chunk
+            writeString(view, 36, 'data');
+            view.setUint32(40, dataSize, true);
+            
+            // Écrire les données audio
+            for (let i = 0; i < data.length; i++) {
+                const sample = Math.max(-1, Math.min(1, data[i]));
+                const intSample = Math.floor(sample * 32767);
+                view.setInt16(44 + i * 2, intSample, true);
+            }
+            
+            return buffer;
+        }
+        
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+        
+        function showMessage(msg) {
+            const div = document.createElement('div');
+            div.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#00A651;color:white;padding:15px 25px;border-radius:12px;font-weight:600;z-index:9999;';
+            div.textContent = msg;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 5000);
+        }
+    </script>
+</body>
+</html>

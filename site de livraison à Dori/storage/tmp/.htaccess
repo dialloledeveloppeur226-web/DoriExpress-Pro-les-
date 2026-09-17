@@ -1,0 +1,16 @@
+# =============================================
+# PROTECTION DU DOSSIER TMP - DoriExpress-Pro
+# =============================================
+# Fichier : storage/tmp/.htaccess
+# =============================================
+
+<Files *>
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+Options -Indexes
+
+# =============================================
+# FIN DU FICHIER .HTACCESS
+# =============================================

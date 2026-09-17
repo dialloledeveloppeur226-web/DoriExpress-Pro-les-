@@ -1,0 +1,19 @@
+# =============================================
+# PROTECTION DU DOSSIER LOGS - DoriExpress-Pro
+# =============================================
+# Fichier : storage/logs/.htaccess
+# Rôle : Bloquer l'accès aux fichiers de logs
+# =============================================
+
+# Bloquer tous les fichiers
+<Files *>
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+# Bloquer l'indexation
+Options -Indexes
+
+# =============================================
+# FIN DU FICHIER .HTACCESS
+# =============================================

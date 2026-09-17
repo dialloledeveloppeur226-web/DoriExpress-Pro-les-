@@ -1,0 +1,21 @@
+============================================
+DORIEXPRESS-PRO - INSTALLATION LOG
+============================================
+Date: 2026-01-01 00:00:00
+Version: 1.0.0
+Status: COMPLETED
+============================================
+
+[OK] PHP 8.0+ vérifié
+[OK] Extensions PHP requises vérifiées
+[OK] Permissions des dossiers vérifiées
+[OK] Base de données créée
+[OK] Tables SQL importées
+[OK] Compte administrateur créé
+[OK] Configuration générée
+[OK] Dossiers d'upload créés
+[OK] Installation terminée
+
+============================================
+FIN DU LOG
+============================================

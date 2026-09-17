@@ -1,0 +1,32 @@
+{
+    "name": "DoriExpress-Pro",
+    "version": "1.0.0",
+    "release_date": "2026-08-08",
+    "status": "stable",
+    "php_required": "8.0+",
+    "mysql_required": "8.0+",
+    "changelog": [
+        {
+            "version": "1.0.0",
+            "date": "2026-08-08",
+            "features": [
+                "Plateforme de livraison complète",
+                "Authentification multi-rôles",
+                "Système de commandes avancé",
+                "Paiements Mobile Money",
+                "GPS et suivi en temps réel",
+                "Chat instantané",
+                "Marketplace partenaire",
+                "Intelligence Artificielle",
+                "PWA",
+                "Sécurité renforcée",
+                "Paramètres dynamiques",
+                "Statistiques et rapports"
+            ],
+            "fixes": []
+        }
+    ],
+    "author": "DoriExpress-Pro",
+    "website": "https://www.doriexpress.bf",
+    "email": "contact@doriexpress.bf"
+}
